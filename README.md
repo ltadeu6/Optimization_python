@@ -6,6 +6,7 @@ numpy
 
 #Usage
 ''' python
+
 def main():
 
     def parabola (x):
@@ -24,4 +25,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 '''
