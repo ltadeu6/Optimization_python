@@ -1,10 +1,11 @@
 # Python numeric optimization
 Creates an environment for the development of numerical optimization codes in addition to some known methods already implemented
 
-##Dependencies
+## Dependencies
 numpy
 
-#Usage
+# Usage
+
 ''' python
 
 def main():
