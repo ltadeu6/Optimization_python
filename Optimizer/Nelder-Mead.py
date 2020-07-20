@@ -7,14 +7,40 @@ from Point import Point
 class NelderMead(object):
 
     def __init__(self, func, params):
+
+        """ the Nelder-Mead method
+
+        :param func: objective function object
+        :param params: dict, tuning parameter, name: (min, max)
+
+        ---
+        NelderMead(
+             lambda x: x[0]**2 + 5 * x[1],
+             {
+                 "x1": (1, 5),
+                 "x2": (0, 3),
+             }
+        )
+
+        """
         self.initialized = False
         self.otm = otimization(func, params)
 
     def otimize(self, n_iter=20, minimize=True, delta_r=1, delta_e=2, delta_ic=-0.5, delta_oc=0.5, gamma_s=0.5):
-        if minimize:
-            self.otm._coef = 1
-        else:
-            self.otm._coef = -1
+
+        """ Minimize or maximize the objective function.
+
+        :param n_iter: the number of iterations for the nelder_mead method
+        :param minimize: True to minimize and False to Maximize
+        :param delta_r: the parameter of reflect
+        :param delta_e: the parameter of expand
+        :param delta_ic: the parameter of inside contraction
+        :param delta_oc: the parameter of outside contraction
+        :param gamma_s: the parameter of shrink
+
+        """
+
+        self.otm._coef = 1 if minimize else -1
         variables = locals()
         for k,v in variables.items():
             setattr(self, k, v)
@@ -26,38 +52,37 @@ class NelderMead(object):
         if not self.initialized:
             self.simplex = self.otm.initialize(self.otm.dim + 1)
         for p in self.simplex:
-            p.v = self.otm.func_impl(p.p) #calcula objetivo nos vértices
+            p.v = self.otm.func_impl(p.p)
 
         for i in range(self.n_iter):
             self.simplex = sorted(self.simplex, key=lambda p: p.v)
 
-            p_centroide = self._centroid()
+            p_centroid = self._centroid()
 
-            p_refletido = self._refletir(p_centroide)
+            p_reflected = self._reflect(p_centroid)
 
 
-            if p_refletido < self.simplex[0]:
-                p_expandido = self._expandir(p_centroide)
+            if p_reflected < self.simplex[0]:
+                p_expanded = self._expand(p_centroid)
 
-                if p_expandido < p_refletido:
-                    self.simplex[-1] = p_expandido
+                if p_expanded < p_reflected:
+                    self.simplex[-1] = p_expanded
                 else:
-                    self.simplex[-1] = p_refletido
+                    self.simplex[-1] = p_reflected
                 continue
-            elif p_refletido > self.simplex[-2]:
-                if p_refletido <= self.simplex[-1]:
-                    p_contraido = self._outside(p_centroide)
-                    if p_contraido < p_refletido:
-                        self.simplex[-1] = p_contraido
+            elif p_reflected > self.simplex[-2]:
+                if p_reflected <= self.simplex[-1]:
+                    p_contracted = self._outside(p_centroid)
+                    if p_contracted < p_reflected:
+                        self.simplex[-1] = p_contracted
                     else:
-                        self.simplex[-1] = p_refletido
+                        self.simplex[-1] = p_reflected
                     continue
-                elif p_refletido > self.simplex[-1]:
-                    p_contraido = self._inside(p_centroide)
-                    if p_contraido < self.simplex[-1]:
-                        self.simplex[-1] = p_contraido
+                elif p_reflected > self.simplex[-1]:
+                    p_contracted = self._inside(p_centroid)
+                    if p_contracted < self.simplex[-1]:
+                        self.simplex[-1] = p_contracted
                         continue
-                # encolher
 
                 for j in range(len(self.simplex) - 1):
                     p = Point(self.otm.dim)
@@ -65,7 +90,7 @@ class NelderMead(object):
                     p.v = self.otm.func_impl(p.p)
                     self.simplex[j+1] = p
             else:
-                self.simplex[-1] = p_refletido
+                self.simplex[-1] = p_reflected
 
         self.simplex = self.otm.sort(self.simplex)
         self.otm.print_best(self.simplex[0])
@@ -76,10 +101,10 @@ class NelderMead(object):
     def _outside(self, p_c):
         return self._generate_point(p_c, self.delta_oc)
 
-    def _expandir(self, p_c):
+    def _expand(self, p_c):
         return self._generate_point(p_c, self.delta_e)
 
-    def _refletir(self, p_c):
+    def _reflect(self, p_c):
         return self._generate_point(p_c, self.delta_r)
 
     def _generate_point(self, p_c, x_coef):
@@ -110,7 +135,7 @@ def main():
     }
 
     nm = NelderMead(func, params)
-    nm.otimize(n_iter=25)
+    nm.otimize(n_iter=25, minimize=False)
 
 if __name__ == "__main__":
     main()

@@ -16,7 +16,10 @@ class otimization(object):
         self._parse_minmax(params)
 
     def _parse_minmax(self, params):
+        types = ["real", "integer"]
         for name, values in params.items():
+            assert values[0] in types, "Invalid param type, Please check it."
+
             self.names.append(name)
             self.p_types.append(values[0])
             self.p_min.append(values[1][0])
@@ -44,7 +47,7 @@ class otimization(object):
                 objval = float("inf")
                 valid = False
         if valid:
-            x = [int(np.round(x_t)) if p_t == "integer" else x_t for p_t, x_t in zip(self.p_types, x)]
+            x = [int(np.round(x_t)) if p_t is "integer" else x_t for p_t, x_t in zip(self.p_types, x)]
             objval = self._coef * self.func(x)
 
         print("{:5d} | {} | {:>15.5f}".format(
