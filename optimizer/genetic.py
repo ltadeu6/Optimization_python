@@ -1,20 +1,45 @@
 #! /usr/bin/env python3
 import numpy as np
 import math
-from Utils import otimization
-from Point import Point
+from utils import otimization
+from point import Point
 
 class Genetic(object):
 
     def __init__(self, func, params):
+
+        """ the Genetic Algorithm method
+
+        :param func: objective function object
+        :param params: dict, tuning parameter, name: (min, max)
+
+        ---
+        Genetic(
+             lambda x: x[0]**2 + 5 * x[1],
+             {
+                 "x1": (1, 5),
+                 "x2": (0, 3),
+             }
+        )
+
+        """
+
         self.initialized = False
         self.otm = otimization(func, params)
 
-    def otimize(self, n_iter=25, minimize=True, pop_len=16, mating_size=8, mutation_ratio=0.01):
-        if minimize:
-            self.otm._coef = 1
-        else:
-            self.otm._coef = -1
+    def optimize(self, n_iter=25, minimize=True, pop_len=16, mating_size=8, mutation_ratio=0.01):
+
+        """ Minimize or maximize the objective function.
+
+        :param n_iter: the number of iterations for the nelder_mead method
+        :param minimize: True to minimize and False to Maximize
+        :param pop_len: the population size
+        :param mating_size: mating pool size
+        :param mutation_ratio: chance of a mutation to occur on each gene
+
+        """
+
+        self.otm._coef = 1 if minimize else -1
         variables = locals()
         for k,v in variables.items():
             setattr(self, k, v)
@@ -26,6 +51,7 @@ class Genetic(object):
 
         if not self.initialized:
             self.pop = self.otm.initialize(self.pop_len)
+            self.initialized = True
 
         for p in self.pop:
             p.v = self.otm.func_impl(p.p)
@@ -61,18 +87,3 @@ class Genetic(object):
 
         self.pop = self.otm.sort(self.pop)
         self.otm.print_best(self.pop[0])
-
-def main():
-    def senoide (x):
-        return sum(t + 5 * math.sin(5 * t) + 2 * math.cos(3 * t) for t in x)
-
-    params = {
-            "x1":["real", (0,10)],
-            "x2":["real", (0,10)],
-            }
-
-    ga = Genetic(senoide, params)
-    ga.otimize(n_iter = 25000, minimize=False, mutation_ratio = 0.5)
-
-if __name__ == "__main__":
-    main()

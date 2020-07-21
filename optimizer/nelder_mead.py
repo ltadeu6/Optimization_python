@@ -1,8 +1,8 @@
 #! /usr/bin/env python3
 import math
 import numpy as np
-from Utils import otimization
-from Point import Point
+from utils import otimization
+from point import Point
 
 class NelderMead(object):
 
@@ -26,7 +26,20 @@ class NelderMead(object):
         self.initialized = False
         self.otm = otimization(func, params)
 
-    def otimize(self, n_iter=20, minimize=True, delta_r=1, delta_e=2, delta_ic=-0.5, delta_oc=0.5, gamma_s=0.5):
+    def initialize(self, init_params):
+
+        """ Inialize first simplex point
+        :param init_params(list):
+        """
+
+        assert len(init_params) == (self.dim + 1), "Invalid the length of init_params"
+        for param in init_params:
+            p = Point(self.dim)
+            p.x = np.array(param, dtype=np.float32)
+            self.simplex.append(p)
+        self.initlized = True
+
+    def optimize(self, n_iter=20, minimize=True, delta_r=1, delta_e=2, delta_ic=-0.5, delta_oc=0.5, gamma_s=0.5):
 
         """ Minimize or maximize the objective function.
 
@@ -51,6 +64,7 @@ class NelderMead(object):
 
         if not self.initialized:
             self.simplex = self.otm.initialize(self.otm.dim + 1)
+            self.initialized = True
         for p in self.simplex:
             p.v = self.otm.func_impl(p.p)
 
@@ -120,22 +134,3 @@ class NelderMead(object):
             x_sum.append(p.p)
         p_c.p = np.mean(x_sum, axis=0)
         return p_c
-
-def main():
-
-    def parabola (x):
-        return sum(t**2 for t in x)
-    def senoide (x):
-        return sum(t + 5 * math.sin(5 * t) + 2 * math.cos(3 * t) for t in x)
-
-    func = senoide
-    params = {
-        "x1": ["real", (0, 10)],
-        "x2": ["real", (0,10)],
-    }
-
-    nm = NelderMead(func, params)
-    nm.otimize(n_iter=25, minimize=False)
-
-if __name__ == "__main__":
-    main()
