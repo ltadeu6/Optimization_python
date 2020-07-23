@@ -4,10 +4,10 @@ import numpy as np
 from utils import otimization
 from point import Point
 
+
 class NelderMead(object):
 
     def __init__(self, func, params):
-
         """ the Nelder-Mead method
 
         :param func: objective function object
@@ -27,12 +27,12 @@ class NelderMead(object):
         self.otm = otimization(func, params)
 
     def initialize(self, init_params):
-
         """ Inialize first simplex point
         :param init_params(list):
         """
 
-        assert len(init_params) == (self.dim + 1), "Invalid the length of init_params"
+        assert len(init_params) == (
+            self.dim + 1), "Invalid the length of init_params"
         for param in init_params:
             p = Point(self.dim)
             p.x = np.array(param, dtype=np.float32)
@@ -40,7 +40,6 @@ class NelderMead(object):
         self.initlized = True
 
     def optimize(self, n_iter=20, minimize=True, delta_r=1, delta_e=2, delta_ic=-0.5, delta_oc=0.5, gamma_s=0.5):
-
         """ Minimize or maximize the objective function.
 
         :param n_iter: the number of iterations for the nelder_mead method
@@ -55,7 +54,7 @@ class NelderMead(object):
 
         self.otm._coef = 1 if minimize else -1
         variables = locals()
-        for k,v in variables.items():
+        for k, v in variables.items():
             setattr(self, k, v)
         self._opt()
 
@@ -74,7 +73,6 @@ class NelderMead(object):
             p_centroid = self._centroid()
 
             p_reflected = self._reflect(p_centroid)
-
 
             if p_reflected < self.simplex[0]:
                 p_expanded = self._expand(p_centroid)
@@ -100,7 +98,8 @@ class NelderMead(object):
 
                 for j in range(len(self.simplex) - 1):
                     p = Point(self.otm.dim)
-                    p.p = self.simplex[0].p + self.gamma_s * (self.simplex[j+1].p - self.simplex[0].p)
+                    p.p = self.simplex[0].p + self.gamma_s * \
+                        (self.simplex[j+1].p - self.simplex[0].p)
                     p.v = self.otm.func_impl(p.p)
                     self.simplex[j+1] = p
             else:
@@ -127,7 +126,7 @@ class NelderMead(object):
         p.v = self.otm.func_impl(p.p)
         return(p)
 
-    def _centroid (self):
+    def _centroid(self):
         p_c = Point(self.otm.dim)
         x_sum = []
         for p in self.simplex[:-1]:

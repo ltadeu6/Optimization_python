@@ -4,10 +4,10 @@ import math
 from utils import otimization
 from point import Point
 
+
 class Genetic(object):
 
     def __init__(self, func, params):
-
         """ the Genetic Algorithm method
 
         :param func: objective function object
@@ -28,7 +28,6 @@ class Genetic(object):
         self.otm = otimization(func, params)
 
     def optimize(self, n_iter=25, minimize=True, pop_len=16, mating_size=8, mutation_ratio=0.01):
-
         """ Minimize or maximize the objective function.
 
         :param n_iter: the number of iterations for the nelder_mead method
@@ -41,10 +40,9 @@ class Genetic(object):
 
         self.otm._coef = 1 if minimize else -1
         variables = locals()
-        for k,v in variables.items():
+        for k, v in variables.items():
             setattr(self, k, v)
         self._opt()
-
 
     def _opt(self):
         self.otm.header()
@@ -80,7 +78,7 @@ class Genetic(object):
                 for j in range(self.otm.dim):
                     if np.random.random() < self.mutation_ratio:
                         offspring.p[j] = ((self.otm.p_max[j] - self.otm.p_min[j]) *
-                                np.random.random() + self.otm.p_min[j])
+                                          np.random.random() + self.otm.p_min[j])
                 offspring.v = self.otm.func_impl(offspring.p)
 
             self.pop[len(parents):] = offsprings

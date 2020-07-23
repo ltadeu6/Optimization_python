@@ -3,6 +3,7 @@ import numpy as np
 import math
 from point import Point
 
+
 class otimization(object):
     def __init__(self, func, params):
         self.func = func
@@ -11,8 +12,8 @@ class otimization(object):
         self.n_eval = 0
         self.p_types = []
         self.p_min = []
-        self.p_max =[]
-        self.obj=[]
+        self.p_max = []
+        self.obj = []
         self._parse_minmax(params)
 
     def _parse_minmax(self, params):
@@ -42,12 +43,13 @@ class otimization(object):
 
     def func_impl(self, x):
         objval, valid = None, True
-        for i, t in enumerate (x):
+        for i, t in enumerate(x):
             if t < self.p_min[i] or t > self.p_max[i]:
                 objval = float("inf")
                 valid = False
         if valid:
-            x = [int(np.round(x_t)) if p_t is "integer" else x_t for p_t, x_t in zip(self.p_types, x)]
+            x = [int(np.round(x_t)) if p_t is "integer" else x_t for p_t,
+                 x_t in zip(self.p_types, x)]
             objval = self._coef * self.func(x)
 
         print("{:5d} | {} | {:>15.5f}".format(
@@ -62,7 +64,8 @@ class otimization(object):
     def initialize(self, obj_len):
         for i in range(obj_len):
             p = Point(self.dim)
-            init_val = [(m2 - m1) * np.random.random() + m1 for m1, m2 in zip(self.p_min, self.p_max)]
+            init_val = [(m2 - m1) * np.random.random() + m1 for m1,
+                        m2 in zip(self.p_min, self.p_max)]
             p.p = np.array(init_val)
             self.obj.append(p)
         return self.obj
