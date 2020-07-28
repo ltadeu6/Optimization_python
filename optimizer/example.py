@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 from nelder_mead import NelderMead
 from genetic import Genetic
+from pso import PSO
 import argparse
 import math
 
@@ -20,11 +21,14 @@ def main(algorithm):
     elif algorithm == "NelderMead":
         nm = NelderMead(senoide, params)
         nm.optimize(n_iter=250, minimize=False)
+    elif algorithm == "PSO":
+        pso = PSO(senoide, params)
+        pso.optimize(minimize=False)
 
 
 if __name__ == "__main__":
 
-    algorithms = ["Genetic", "NelderMead"]
+    algorithms = ["Genetic", "NelderMead", "PSO"]
 
     parser = argparse.ArgumentParser(
         description="Demonstrates an otimizing algorithm")

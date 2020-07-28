@@ -1,5 +1,4 @@
 #! /usr/bin/env python3
-import math
 import numpy as np
 from utils import otimization
 from point import Point

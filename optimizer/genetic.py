@@ -1,6 +1,5 @@
 #! /usr/bin/env python3
 import numpy as np
-import math
 from utils import otimization
 from point import Point
 
@@ -24,27 +23,12 @@ class Genetic(object):
 
         """
 
-        self.initialized = False
         self.otm = otimization(func, params)
-
-    def initialize(self, init_params):
-        """ Inialize first simplex point
-
-        :param init_params(list):
-
-        """
-        assert len(init_params) == (self.otm.dim +
-                                    1), "Invalid the length of init_params"
-        for param in init_params:
-            p = Point(self.dim)
-            p.p = np.array(param, dtype=np.float32)
-            self.simplex.append(p)
-        self.initlized = True
 
     def optimize(self, n_iter=25, minimize=True, pop_len=16, mating_size=8, mutation_ratio=0.01):
         """ Minimize or maximize the objective function.
 
-        :param n_iter: the number of iterations for the nelder_mead method
+        :param n_iter: the number of iterations for the method
         :param minimize: True to minimize and False to Maximize
         :param pop_len: the population size
         :param mating_size: mating pool size
@@ -61,9 +45,7 @@ class Genetic(object):
     def _opt(self):
         self.otm.header()
 
-        if not self.initialized:
-            self.pop = self.otm.initialize(self.pop_len)
-            self.initialized = True
+        self.pop = self.otm.initialize(self.pop_len)
 
         for p in self.pop:
             p.v = self.otm.func_impl(p.p)
