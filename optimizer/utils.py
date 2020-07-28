@@ -66,6 +66,6 @@ class otimization(object):
             p = Point(self.dim)
             init_val = [(m2 - m1) * np.random.random() + m1 for m1,
                         m2 in zip(self.p_min, self.p_max)]
-            p.p = np.array(init_val)
+            p.p = np.array(init_val, dtype=np.float32)
             self.obj.append(p)
         return self.obj

@@ -27,6 +27,20 @@ class Genetic(object):
         self.initialized = False
         self.otm = otimization(func, params)
 
+    def initialize(self, init_params):
+        """ Inialize first simplex point
+
+        :param init_params(list):
+
+        """
+        assert len(init_params) == (self.otm.dim +
+                                    1), "Invalid the length of init_params"
+        for param in init_params:
+            p = Point(self.dim)
+            p.p = np.array(param, dtype=np.float32)
+            self.simplex.append(p)
+        self.initlized = True
+
     def optimize(self, n_iter=25, minimize=True, pop_len=16, mating_size=8, mutation_ratio=0.01):
         """ Minimize or maximize the objective function.
 

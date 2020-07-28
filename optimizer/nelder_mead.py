@@ -32,9 +32,9 @@ class NelderMead(object):
         """
 
         assert len(init_params) == (
-            self.dim + 1), "Invalid the length of init_params"
+            self.otm.dim + 1), "Invalid the length of init_params"
         for param in init_params:
-            p = Point(self.dim)
+            p = Point(self.otm.dim)
             p.x = np.array(param, dtype=np.float32)
             self.simplex.append(p)
         self.initlized = True
