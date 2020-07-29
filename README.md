@@ -37,5 +37,5 @@ if __name__ == "__main__":
 
 # Acknowledgements
 
-Masaki Yano: https://github.com/owruby/nelder_mead
-Ahmed Gad: https://github.com/ahmedfgad/GeneticAlgorithmPython
++ Masaki Yano: https://github.com/owruby/nelder_mead
++ Ahmed Gad: https://github.com/ahmedfgad/GeneticAlgorithmPython
