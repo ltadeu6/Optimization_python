@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
-from nelder_mead import NelderMead
-from genetic import Genetic
-from pso import PSO
+from pynumoptimizer.nelder_mead import NelderMead
+from pynumoptimizer.genetic import Genetic
+from pynumoptimizer.pso import PSO
 import argparse
 import math
 

@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 import numpy as np
-from utils import otimization
-from point import Point
+from pynumoptimizer.utils import otimization
+from pynumoptimizer.point import Point
 
 
 class NelderMead(object):

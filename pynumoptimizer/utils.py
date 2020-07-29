@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 import numpy as np
 import math
-from point import Point
+from pynumoptimizer.point import Point
 
 
 class otimization(object):
