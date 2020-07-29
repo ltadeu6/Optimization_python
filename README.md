@@ -25,7 +25,7 @@ def main():
     func = senoide
     params = {
         "x1": ["real", (0, 10)],
-        "x2": ["real", (0,10)],
+        "x2": ["real", (0, 10)],
     }
 
     nm = NelderMead(func, params)
