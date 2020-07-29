@@ -2,7 +2,6 @@ from setuptools import setup, find_packages
 
 setup(
     name="Python-Numeric-Optimizer",
-    version="0.5",
     url="https://github.com/ltadeu6/python-numeric-optimization",
     packages=find_packages(),
     author="Lucas Tadeu",
