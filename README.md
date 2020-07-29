@@ -7,6 +7,9 @@ numpy
 # Usage
 
 ``` python
+from pynumoptimizer.nelder_mead import NelderMead
+
+
 def main():
 
     def parabola (x):
