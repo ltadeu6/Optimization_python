@@ -1,5 +1,5 @@
 # Python numeric optimization
-This became as a fork of https://github.com/owruby/nelder_mead, but the goal now is to create an environment for the development of new numerical optimization codes in addition to some known methods already implemented, new algorithms will be implemented in the future using the base code utils.py and point.py
+This started as a fork of https://github.com/owruby/nelder_mead, but the goal now is to create an environment for the development of new numerical optimization codes in addition to some known methods already implemented, new algorithms will be implemented in the future using the base code utils.py and point.py
 
 ## Dependencies
 numpy
