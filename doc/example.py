@@ -17,6 +17,7 @@ def main(algorithm):
 
     opt.optimize(minimize=False)
 
+
 if __name__ == "__main__":
 
     algorithms = ["Genetic", "NelderMead", "PSO"]
