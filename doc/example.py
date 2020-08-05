@@ -23,7 +23,7 @@ if __name__ == "__main__":
     algorithms = ["Genetic", "NelderMead", "PSO"]
 
     parser = argparse.ArgumentParser(
-        description="Demonstrates an otimizing algorithm")
+        description="Demonstrates an optimizing algorithm")
 
     parser.add_argument('algorithm', choices=algorithms, metavar=(
         'Algorithm'), help='Chooses the algorithm. Allowed values: '+', '.join(algorithms)+'.')
