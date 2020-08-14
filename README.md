@@ -12,7 +12,7 @@ pip install git+https://github.com/ltadeu6/python-numeric-optimization.git
 # Usage
 
 ``` python
-from pynumoptimizer.nelder_mead import NelderMead
+from pynumoptimizer import NelderMead
 
 
 def main():
